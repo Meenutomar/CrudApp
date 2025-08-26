@@ -1,24 +1,48 @@
 package com.app.crud.products;
 
-import java.util.ArrayList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController()
+@RestController
 @RequestMapping("/products")
 public class ProductController {
-	
-	@GetMapping()
-	public List<Product> getAllProducts() {
-		Product p1 = new Product(1, "Lux", 25.34f);
-		Product p2 = new Product(2, "Cinthol", 34.34f);
-		List<Product> productList = new ArrayList<>();
-		productList.add(p1);
-		productList.add(p2);
-		return productList;
-	}
 
+	@Autowired
+	private ProductService productService;
+
+    // Get all products
+    @GetMapping
+    public List<ProductResponse> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
+    // Add a new product
+    @PostMapping
+    public ProductResponse addProduct(@RequestBody ProductRequest product) {
+        
+    	return productService.createProduct(product);
+    }
+
+    // Get product by ID
+    @GetMapping("/{id}")
+    public ProductResponse getProductById(@PathVariable int id) {
+    	return productService.getProductById(id);
+    }
+
+    // Update product
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable int id, @RequestBody Product product) {
+        product.setId(id);
+       // return productRepository.save(product);
+        return null;
+    }
+
+    // Delete product
+    @DeleteMapping("/{id}")
+    public String deleteProduct(@PathVariable int id) {
+       // productRepository.deleteById(id);
+        return "Product deleted with id: " + id;
+    }
 }
