@@ -13,21 +13,23 @@ public class ProductService {
 	 @Autowired
 	 private ProductRepository productRepository;
 	 
+	 @Autowired
+	 private ProductToProductResponseTransformer transformer;
+	 
 	 public List<ProductResponse> getAllProducts() {
 		 final List<ProductResponse> productDtos = new ArrayList<>();
 		 final List<Product> products = productRepository.findAll();
 		 //Controller - Service -Repo/Backend
 		 			//DTO      Entity/Model
 		 for (Product product : products) {
-			productDtos.add(new ProductResponse(product.getId(), product.getName(), product.getDescription(), product.getPrice()));
-			
+			productDtos.add(transformer.apply(product));
 		 }
 		 return productDtos;
 	 }
 	 
 	 public ProductResponse getProductById(int id) {
 	     Product product =  productRepository.findById(id).orElse(null);
-	     return new ProductResponse(product.getId(), product.getName(), product.getDescription(),product.getPrice());
+	     return transformer.apply(product);
 	 }
 	 
 	 public ProductResponse createProduct(ProductRequest productRequest) {
@@ -37,10 +39,7 @@ public class ProductService {
 		reqProduct.setPrice(productRequest.getPrice());
 		
  		Product product = productRepository.save(reqProduct);
-		return new ProductResponse(product.getId(), product.getName(), product.getDescription(),product.getPrice());
-
-		
-		
+ 		return transformer.apply(product);
 	 }
 	
 	 
@@ -52,10 +51,6 @@ public class ProductService {
 	     existingProduct.setName(product.getName());
 	     existingProduct.setDescription(product.getDescription());
 	     existingProduct.setPrice(product.getPrice());
-	     // set other fields if you have
-	     
-	     
-
 	     return productRepository.save(existingProduct);
 	 }
 	 
