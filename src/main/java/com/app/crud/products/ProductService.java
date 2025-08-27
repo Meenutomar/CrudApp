@@ -16,6 +16,9 @@ public class ProductService {
 	 @Autowired
 	 private ProductToProductResponseTransformer transformer;
 	 
+	 @Autowired
+	    private EmailService emailService; 
+	 
 	 public List<ProductResponse> getAllProducts() {
 		 final List<ProductResponse> productDtos = new ArrayList<>();
 		 final List<Product> products = productRepository.findAll();
@@ -39,11 +42,23 @@ public class ProductService {
 		reqProduct.setPrice(productRequest.getPrice());
 		
  		Product product = productRepository.save(reqProduct);
- 		return transformer.apply(product);
-	 }
+ 		  /*
+ 		   * Send email
+ 		   */
+ 	    emailService.sendEmail(
+ 	        "receiveremail@example.com",
+ 	        "New Product Created: " + product.getName(),
+ 	        "Product '" + product.getName() + "' has been created with ID: " + product.getId()
+ 	    );
+
+ 	    return transformer.apply(product);
+ 	}
+ 	
 	
 	 
-	// Update product
+	/*
+	 * Update product
+	 */
 	 public Product updateProduct(int id, Product product) {
 	     Product existingProduct = productRepository.findById(id)
 	             .orElseThrow(() -> new RuntimeException("Product not found with id " + id));
@@ -54,7 +69,9 @@ public class ProductService {
 	     return productRepository.save(existingProduct);
 	 }
 	 
-	// delete method
+	/*
+	 * delete method
+	 */
 	    public void deleteProduct(int id) {
 	        if (productRepository.existsById(id)) {
 	            productRepository.deleteById(id);

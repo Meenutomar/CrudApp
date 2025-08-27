@@ -14,7 +14,7 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title(" CRUD API")
                         .version("1.0")
-                        .description("API documentation for the Student CRUD application"));
+                        .description("API documentation for the Product CRUD application"));
     }
 
 }
