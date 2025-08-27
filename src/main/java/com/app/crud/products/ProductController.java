@@ -31,18 +31,17 @@ public class ProductController {
     	return productService.getProductById(id);
     }
 
-    // Update product
+   
+ // Update product
     @PutMapping("/{id}")
     public Product updateProduct(@PathVariable int id, @RequestBody Product product) {
-        product.setId(id);
-       // return productRepository.save(product);
-        return null;
+        return productService.updateProduct(id, product);
     }
-
-    // Delete product
+  
+ // Delete product
     @DeleteMapping("/{id}")
     public String deleteProduct(@PathVariable int id) {
-       // productRepository.deleteById(id);
+        productService.deleteProduct(id);
         return "Product deleted with id: " + id;
     }
 }
