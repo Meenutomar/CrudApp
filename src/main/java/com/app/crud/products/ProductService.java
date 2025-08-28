@@ -46,7 +46,7 @@ public class ProductService {
  		   * Send email
  		   */
  	    emailService.sendEmail(
- 	        "receiveremail@example.com",
+ 	        "meenutomar.jt@gmail.com",
  	        "New Product Created: " + product.getName(),
  	        "Product '" + product.getName() + "' has been created with ID: " + product.getId()
  	    );
