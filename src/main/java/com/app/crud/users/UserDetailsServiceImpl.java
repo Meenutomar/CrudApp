@@ -1,6 +1,7 @@
 package com.app.crud.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .username(user.getUsername())
                 .password(user.getPassword())
                 // use authorities() because role stored includes ROLE_ prefix
+                //.authorities(new SimpleGrantedAuthority(user.getRole()))
                 .authorities(user.getRole())
                 .build();
     }

@@ -17,7 +17,28 @@ public class Product {
     private String name;
     private float price;
     private String description;
+    
+    /*
+     * store both file path & file name
+     */
+    @Column(name ="imagename")
+    private String imageName;
+    
+    @Column(name = "imagepath")
+	private String imagePath;
+	
+    public String getImageName() {
+		return imageName;
+	}
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
 
+    
+    public String getImageUrl() {
+        // Expose this as API URL
+        return "http://localhost:8080/files/" + this.imageName;
+    }
     public String getDescription() {
 		return description;
 	}
@@ -53,4 +74,10 @@ public class Product {
     public void setPrice(float price) {
         this.price = price;
     }
+	public String getImagePath() {
+		return imagePath;
+	}
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
 }
